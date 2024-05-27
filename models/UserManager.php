@@ -12,7 +12,8 @@ function GetOneUserFromId($id)
 function GetAllUsers()
 {
   global $PDO;
-  $response = $PDO->query("SELECT * FROM user ORDER BY nickname ASC");
+  $response = $PDO->prepare("SELECT * FROM user ORDER BY nickname ASC");
+  $response->execute();
   return $response->fetchAll();
 }
 
