@@ -30,9 +30,28 @@ function SearchInPosts($search)
   );
   return $response->fetchAll();
 }
-function GetAllPostsFromUserId($userId)
+function GetUserIdFromUserAndPassword($username, $password)
 {
   global $PDO;
-  $response = $PDO->query("SELECT * FROM post WHERE user_id = $userId ORDER BY created_at DESC");
-  return $response->fetchAll();
+
+  $sqlQuery = 'SELECT * FROM user WHERE nickname = :nickname';
+  $pdo_prepare = $PDO->prepare($sqlQuery);
+  $pdo_prepare->execute(['nickname' => $username]);
+  $user = $pdo_prepare->fetch();
+
+  if ($user && $_POST['password'] === $user['password']) {
+    return $_SESSION['id'];
+  } else {
+    return -1;
+  }
+}
+
+function CreateNewPost($userId, $msg)
+{
+  global $PDO;
+  $sqlQuery = 'INSERT INTO post(user_id, content) values (:user_id, :content)';
+  $pdo_prepare = $PDO->prepare($sqlQuery);
+  $pdo_prepare->execute([
+    ':user_id' => $userId, ':content' => $msg
+  ]);
 }
