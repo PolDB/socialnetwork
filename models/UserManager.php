@@ -4,7 +4,8 @@ include_once "PDO.php";
 function GetOneUserFromId($id)
 {
   global $PDO;
-  $response = $PDO->query("SELECT * FROM user WHERE id = $id");
+  $response = $PDO->prepare("SELECT * FROM user WHERE id = :id");
+  $response->execute([':id' => $id]);
   return $response->fetch();
 }
 
