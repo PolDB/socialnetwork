@@ -83,15 +83,12 @@ switch ($action) {
 
     // ===================HARDCODED PART===========================
     // format idPost => array of comments
-    $comments[1] = array();
+
     foreach ($posts as $onePost) {
       $id_post = $onePost['id'];
-      $commentsForThisPost = GetAllPosts($id_post);
+      $comments[$id_post] = GetAllCommentsFromPostId($id_post);
     }
 
-    $comments[3] = array(
-      array("nickname" => "FakeUser1", "created_at" => "1970-01-01 00:00:00", "content" => "Fake comment 04."),
-    );
     // =============================================================
 
     include "../views/DisplayPosts.php";

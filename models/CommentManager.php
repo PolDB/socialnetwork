@@ -21,13 +21,13 @@ function GetAllComments()
   return $response->fetchAll();
 }
 
-function GetAllCommentsFromUserId($postId)
+function GetAllCommentsFromPostId($postId)
 {
   global $PDO;
   $response = $PDO->prepare(
     "SELECT comment.*, user.nickname "
       . "FROM comment LEFT JOIN user on (comment.user_id = user.id) "
-      . "WHERE comment.user_id = :postId "
+      . "WHERE comment.post_id = :postId "
       . "ORDER BY comment.created_at ASC"
   );
   $response->execute([':postId' => $postId]);
